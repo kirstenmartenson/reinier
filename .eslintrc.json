@@ -1,0 +1,17 @@
+{
+    "extends": "airbnb-base",
+    "plugins": [
+        "import"
+    ],
+    "parserOptions": {
+        "sourceType": "script"
+    },
+    "env": {
+        "node": true,
+        "jasmine": true
+    },
+    "rules": {
+      "func-names": ["error", "as-needed"],
+      "no-param-reassign": ["error", { "props": false }]
+    }
+}

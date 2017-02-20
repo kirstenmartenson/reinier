@@ -1,0 +1,40 @@
+{
+  "servers": {
+    "open": {
+      "port": 8080
+    },
+    "secure": {
+      "port": 8443,
+      "options": {
+        "key": "config/key.pem",
+        "cert": "config/cert.pem"
+      }
+    }
+  },
+  "ldapauth": {
+    "server": {
+      "url": "OVERRIDE",
+      "bindDn": "OVERRIDE",
+      "bindCredentials": "OVERRIDE",
+      "searchBase": "OVERRIDE",
+      "searchFilter": "(uid={{username}})"
+    }
+  },
+  "solos": {
+    "resource": {
+      "path": "solos"
+    },
+    "security": {
+      "allowIsTheDefault": false,
+      "groups": {
+        "reinier admin": [".*"],
+        "reinier user": ["(GET|POST).*"]
+      }
+    }
+  },
+  "seneca": {
+    "log": {
+      "level": "info+"
+    }
+  }
+}

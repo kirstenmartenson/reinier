@@ -33,5 +33,22 @@ jspm_packages
 # Optional npm cache directory
 .npm
 
+# Sensitive Files
+/config/**
+!/config/default*
+
 # Optional REPL history
 .node_repl_history
+
+#generated output exclusions
+log
+out
+doc
+
+#IDE exclusions
+nbproject
+.idea
+.vscode
+
+#OS exclusions
+.DS_Store
