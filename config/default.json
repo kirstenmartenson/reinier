@@ -9,6 +9,15 @@
         "key": "config/key.pem",
         "cert": "config/cert.pem"
       }
+    },
+    "auth": {
+      "crypt": {
+        "password" : "OVERRIDE"
+      },
+      "cache": {
+        "ttl": 10800,
+        "check": 360
+      }
     }
   },
   "ldapauth": {
@@ -22,12 +31,10 @@
   },
   "solos": {
     "resource": {
-      "path": "solos"
     },
     "security": {
-      "allowIsTheDefault": false,
       "groups": {
-        "reinier admin": [".*"],
+        "reinier admin": ".*",
         "reinier user": ["(GET|POST).*"]
       }
     }

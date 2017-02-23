@@ -13,6 +13,7 @@ const solos = require('rapid-solos');
 const passport = require('passport');
 const basicAuth = require('basic-auth');
 const LdapStrategy = require('passport-ldapauth');
+const auth = require('./auth.js');
 
 const ldapOptions = JSON.parse(JSON.stringify(config.get('ldapauth'))); // clone
 
@@ -32,7 +33,13 @@ const seneca = require('seneca')(config.get('seneca'));
 app.use(passport.initialize());
 app.use(express.static('public'));
 app.use('/', router);
-router.use('/', passport.authenticate('ldapauth', { session: false }));
+
+// Configure Basic Authentication - LDAP (/login)
+router.use(/^[/]login[/]?/, auth.basicLDAP(passport));
+
+// Configure Bearer Authentication - Cached (not /login)
+router.use(/^[/](?!login)/, auth.bearer(passport));
+
 seneca.use('entity');
 
 // initialize solos
