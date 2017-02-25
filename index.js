@@ -30,6 +30,7 @@ const app = express();
 const router = express.Router();
 const seneca = require('seneca')(config.get('seneca'));
 
+app.set('x-powered-by', false);
 app.use(passport.initialize());
 app.use(express.static('public'));
 app.use('/', router);
