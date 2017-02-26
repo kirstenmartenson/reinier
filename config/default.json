@@ -11,12 +11,9 @@
       }
     },
     "auth": {
-      "crypt": {
-        "password" : "OVERRIDE"
-      },
-      "cache": {
-        "ttl": 10800,
-        "check": 360
+      "token": {
+        "secret" : "OVERRIDE",
+        "ttl": 10800
       }
     }
   },

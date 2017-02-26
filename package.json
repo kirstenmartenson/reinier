@@ -4,7 +4,7 @@
   "description": "Web Publishing with Airtable",
   "main": "index.js",
   "scripts": {
-    "test": "make test",
+    "test": "mocha",
     "start": "node index.js"
   },
   "repository": {
@@ -21,19 +21,22 @@
     "basic-auth": "^1.1.0",
     "config": "^1.25.1",
     "express": "^4.14.1",
+    "jsonwebtoken": "^7.3.0",
     "node-cache": "^4.1.1",
     "passport": "^0.3.2",
     "passport-ldapauth": "^1.0.0",
     "rapid-solos": "0.0.25",
     "seneca": "^3.2.2",
-    "seneca-entity": "^1.3.0",
-    "uuid": "^3.0.1"
+    "seneca-entity": "^1.3.0"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "eslint": "^3.15.0",
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-plugin-import": "^2.2.0",
-    "jsdoc": "^3.4.3"
+    "jsdoc": "^3.4.3",
+    "mocha": "^3.2.0"
   },
   "jshintConfig": {
     "node": true,
