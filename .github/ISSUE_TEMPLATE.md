@@ -3,10 +3,10 @@
 ## Expected Behavior
 <!--- If you're describing a bug, tell us what should happen -->
 <!--- If you're suggesting a change/improvement, tell us how it should work -->
-* As a [ROLE]
-* I should be able to [ACTION]
-* so that [GOAL]
-* is accomplished with [QUALITY]
+* As a **[ROLE]**
+* I should be able to **[ACTION]**
+* so that **[GOAL]**
+* is accomplished with **[QUALITY]**
 
 ## Current Behavior
 <!--- If describing a bug, tell us what happens instead of the expected behavior -->
