@@ -32,7 +32,8 @@
     "security": {
       "groups": {
         "reinier admin": ".*",
-        "reinier user": ["(GET|POST).*"]
+        "reinier editor": ["GET /", "(GET|PUT|POST|DELETE) /edit/.*"],
+        "reinier blogger": ["GET /", "(GET|PUT|POST|DELETE) /blog/.*"]
       }
     }
   },

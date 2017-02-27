@@ -68,7 +68,7 @@ describe('User', () => {
     it('with a bad password should fail', (done) => {
       chai.request(server)
         .get('/login')
-        .set('authorization', generateBasicAuth('admin').slice(0, -4))
+        .set('authorization', generateBasicAuth('blogger').slice(0, -4))
         .end((err, res) => {
           res.should.have.status(401);
           res.headers.should.have.property('www-authenticate');
@@ -82,7 +82,7 @@ describe('User', () => {
     it('with a good password should succeed', (done) => {
       chai.request(server)
         .get('/login')
-        .set('authorization', generateBasicAuth('admin'))
+        .set('authorization', generateBasicAuth('blogger'))
         .end((err, res) => {
           res.should.have.status(200);
           res.headers.should.not.have.property('www-authenticate');
@@ -122,7 +122,7 @@ describe('User', () => {
           done();
         });
     });
-    it('with a bearer authentication header should succeed', (done) => {
+    it('with correct bearer authentication header should succeed', (done) => {
       chai.request(server)
         .get('/')
         .set('authorization', generateBearerAuth(token))

@@ -111,7 +111,7 @@ module.exports.bearer = function bearer(passport) {
       return send401(req, res, next);
     }
 
-    // Validate token is stil valid and decrypt the basic authorization header
+    // Validate token is still valid and decrypt the basic authorization header
     const token = new Buffer(key[1], 'base64').toString('UTF-8');
     return decrypt(token, (err, basic) => {
       if (err) {
