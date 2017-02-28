@@ -34,8 +34,15 @@ jspm_packages
 .npm
 
 # Sensitive Files
+# Because there is no standard naming convention use
+# https://en.wikipedia.org/wiki/Deployment_environment for base names
 /config/**
 !/config/default*
+!/config/development.*
+!/config/testing.*
+!/config/acceptance.*
+!/config/staging.*
+!/config/production.*
 
 # Optional REPL history
 .node_repl_history

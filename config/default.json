@@ -11,12 +11,9 @@
       }
     },
     "auth": {
-      "crypt": {
-        "password" : "OVERRIDE"
-      },
-      "cache": {
-        "ttl": 10800,
-        "check": 360
+      "token": {
+        "secret" : "OVERRIDE",
+        "ttl": 10800
       }
     }
   },
@@ -35,7 +32,8 @@
     "security": {
       "groups": {
         "reinier admin": ".*",
-        "reinier user": ["(GET|POST).*"]
+        "reinier editor": ["GET /", "(GET|PUT|POST|DELETE) /edit/.*"],
+        "reinier blogger": ["GET /", "(GET|PUT|POST|DELETE) /blog/.*"]
       }
     }
   },

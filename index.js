@@ -79,3 +79,5 @@ redirect.all('*', (req, res) => {
 
 const open = http.createServer(redirect);
 open.listen(openPort, listening(open));
+
+module.exports = app; // for testing
