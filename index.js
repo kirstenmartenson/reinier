@@ -4,20 +4,21 @@
 
 'use strict';
 
+// Make it easy for developers to create local-{username}.json config files
+if (!process.env.NODE_APP_INSTANCE && !process.env.NODE_ENV) {
+  process.env.NODE_APP_INSTANCE = process.env.USER;
+}
+
 const config = require('config');
 const http = require('http');
 const https = require('https');
-const fs = require('fs');
 const express = require('express');
 const solos = require('rapid-solos');
 const passport = require('passport');
-const basicAuth = require('basic-auth');
 const LdapStrategy = require('passport-ldapauth');
 const auth = require('./auth.js');
 
-const ldapOptions = JSON.parse(JSON.stringify(config.get('ldapauth'))); // clone
-
-ldapOptions.credentialsLookup = basicAuth;
+const ldapOptions = config.get('ldapauth');
 
 passport.use(new LdapStrategy(ldapOptions, (user, done) => {
   const extractor = /cn[=]([^,]+)/;  // extract cn and set user.groups for solos authorization
@@ -48,9 +49,7 @@ solos.init(router, seneca, config.get('solos'));
 
 // start servers
 const serverConfig = config.get('servers');
-const secureOptions = JSON.parse(JSON.stringify(config.get('servers.secure.options'))); // clone
-secureOptions.cert = fs.readFileSync(secureOptions.cert);
-secureOptions.key = fs.readFileSync(secureOptions.key);
+const secureOptions = config.get('servers.secure.options');
 
 const openPort = config.has('servers.open.port') ? serverConfig.open.port : 80;
 const securePort = config.has('servers.secure.port') ? serverConfig.secure.port : 443;
