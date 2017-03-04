@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+- node
+- '6'
+env:
+  global:
+  - secure: BYevXh+c/LEZC99tz4+BLOCvSy2CWufN6KFkjHGPGLhcwktbsylQ5UNWgzlzqsIphwojZzNZFnonWJlBJCj1vPWMQkYFv2TouBJ++Fh8fbR4CxH+qJZ3n//iuOrxLF7VVYpr78P9yqWO7c4/xhrrB/sWSOvQmo//RGDbMfgCYw6dtiyB3ZTB+xnC0qerZpGri+jsvvVboH8ojb5JQdg1O0TRQskhUxgaCzj/4o3MZL/SPtJzT5awOQowt6XCBygK1W5qr2a/PsKei5qg+2455pgnYZ0FY6BnAAo5Ym/zXGSOdFSa/B0Hd6MfUB7vwYBlx8DCYtHIOkpzSTomXeSNVEx8tSxzve/fh59zt71cV4+XOFgWshTFx5FP/xPqUzmdCCGkH55ba9PbmG7sns8kiAB7jQmVI6FOIDqrciwDS9bOw5z+LXW+C716G9oDURkvKKNWsw1NuFhDt1mh52r37ra6yqh1cSfKvIGb7aEXSjNEmVCikdlxdSLMt4aIf8xDRP61I6tjHU5FxS+zO0vJGiyT3js89MHw6RqmpJpEEQ6CrQUJ0iWkHUtrVa6nBlvU/WCdHO8S46I2saLQq7pVuiyuVEYWiEpvgH9I0QJk5mXTSjaE4G5x1uSB7tRZ87s3+5mwnYnLgvdXxpUF01nmMb69uWQay/iu221JtpGdl48=
+before_install:
+- openssl aes-256-cbc -k "$testing_openssl_secret" -in config/local-testing-cert.pem.enc
+  -out config/local-testing-cert.pem -d
+- openssl aes-256-cbc -k "$testing_openssl_secret" -in config/local-testing-key.pem.enc
+  -out config/local-testing-key.pem -d
+- openssl aes-256-cbc -k "$testing_openssl_secret" -in config/local-testing.js.enc
+  -out config/local-testing.js -d
