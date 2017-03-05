@@ -5,8 +5,11 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
 const defer = require('config/defer').deferConfig;
+const raw = require('config/raw').raw;
 const basicAuth = require('basic-auth');
+const rfs = require('rotating-file-stream');
 
 module.exports = {
   servers: {
@@ -27,6 +30,26 @@ module.exports = {
         secret: 'OVERRIDE',
         ttl: 10800,
       },
+    },
+    logs: {
+      directory: 'log',
+      file: 'access.log',
+      rotate: '1d',
+      type: 'combined',
+      options: defer((cfg) => {
+        const dir = path.join(process.cwd(), cfg.servers.logs.directory);
+        const rotate = {
+          interval: cfg.servers.logs.rotate,
+          path: fs.existsSync(dir) || fs.mkdirSync(dir) ? dir : undefined,
+        };
+
+        return raw({
+          type: cfg.servers.logs.type,
+          options: {
+            stream: rfs(cfg.servers.logs.file, rotate),
+          },
+        });
+      }),
     },
   },
   ldapauth: {
