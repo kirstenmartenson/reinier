@@ -9,7 +9,9 @@ const path = require('path');
 const defer = require('config/defer').deferConfig;
 const raw = require('config/raw').raw;
 const basicAuth = require('basic-auth');
+const stringify = require('json-stringify-safe');
 const rfs = require('rotating-file-stream');
+const bunyan = require('bunyan');
 
 module.exports = {
   servers: {
@@ -72,9 +74,46 @@ module.exports = {
       },
     },
   },
+  bunyan: {
+    logger: {
+      name: 'seneca',
+      streams: [{
+        level: bunyan.INFO,
+        stream: 'process.stdout',
+      }, {
+        type: 'rotating-file',
+        file: 'application.log',
+        level: bunyan.INFO,
+        period: '1d', // daily rotation
+        count: 7, // keep a week of back copies
+      }],
+    },
+  },
   seneca: {
     log: {
-      level: 'info+',
+      map: [{
+        level: 'all',
+        handler: defer((cfg) => {
+          const config = JSON.parse(JSON.stringify(cfg.bunyan.logger));
+          config.streams.forEach((stream) => {
+            if (stream.stream === 'process.stdout') {
+              stream.stream = process.stdout;
+            } else if (stream.type === 'rotating-file' && stream.file) {
+              stream.path = `${process.cwd()}/${cfg.servers.logs.directory}/${stream.file}`;
+            }
+          });
+
+          const logger = bunyan.createLogger(config);
+
+          return function log(...args) {
+            args.shift(); // remove timestamp - bunyan has one
+            const level = args.splice(1, 1)[0];
+            const msg = args.map(arg => (typeof arg === 'object' ? stringify(arg) : arg));
+
+            logger[level](msg.join(' ')); // remove log level and call
+          };
+        }),
+      }],
     },
   },
 };
