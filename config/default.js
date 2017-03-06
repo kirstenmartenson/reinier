@@ -103,14 +103,17 @@ module.exports = {
             }
           });
 
+          if (!config.serializers) {
+            config.serializers = bunyan.stdSerializers;
+          }
+
           const logger = bunyan.createLogger(config);
 
           return function log(...args) {
             args.shift(); // remove timestamp - bunyan has one
-            const level = args.splice(1, 1)[0];
-            const msg = args.map(arg => (typeof arg === 'object' ? stringify(arg) : arg));
-
-            logger[level](msg.join(' ')); // remove log level and call
+            const level = args.splice(1, 1)[0]; // remove log level
+            const msg = stringify(args, (key, value) => (['req', 'res'].indexOf(key) >= 0 ? '[FILTERED]' : value));
+            logger[level](msg.replace(/["]/g, '\'')); // make pretty and log
           };
         }),
       }],
