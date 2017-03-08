@@ -78,12 +78,12 @@ module.exports = {
     logger: {
       name: 'seneca',
       streams: [{
-        level: bunyan.INFO,
+        level: 'info',
         stream: 'process.stdout',
       }, {
         type: 'rotating-file',
         file: 'application.log',
-        level: bunyan.INFO,
+        level: 'info',
         period: '1d', // daily rotation
         count: 7, // keep a week of back copies
       }],
@@ -99,7 +99,8 @@ module.exports = {
             if (stream.stream === 'process.stdout') {
               stream.stream = process.stdout;
             } else if (stream.type === 'rotating-file' && stream.file) {
-              stream.path = `${process.cwd()}/${cfg.servers.logs.directory}/${stream.file}`;
+              const dir = cfg.servers.logs.directory;  // cannot guarantee execution order
+              stream.path = `${process.cwd()}/${fs.existsSync(dir) ? dir : fs.mkdirSync(dir) || dir}/${stream.file}`;
             }
           });
 
