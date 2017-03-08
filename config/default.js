@@ -42,7 +42,7 @@ module.exports = {
         const dir = path.join(process.cwd(), cfg.servers.logs.directory);
         const rotate = {
           interval: cfg.servers.logs.rotate,
-          path: fs.existsSync(dir) || fs.mkdirSync(dir) ? dir : undefined,
+          path: fs.existsSync(dir) ? dir : fs.mkdirSync(dir) || dir,
         };
 
         return raw({
