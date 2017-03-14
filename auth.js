@@ -39,18 +39,27 @@ const decrypt = (text, done) => {
  */
 module.exports.basicLDAP = function basicLDAP(passport) {
   const send401 = (msg, req, res, next) => {
-    res.set('WWW-Authenticate', 'Basic').status(401).json(msg || {});
+    res.set('WWW-Authenticate', res.authenticate).status(401).json(msg || {});
     next();
   };
 
   return (req, res, next) => {
     const authorization = req.get('Authorization');
 
+    // The default is basic
+    res.authenticate = 'Basic';
+
     if (!authorization) {
       // Send the request for Basic Authentication and exit
       return send401({
         message: 'Missing header',
       }, req, res, next);
+    }
+
+    if (authorization.match(/^Form/i)) {
+      // Override the authorization header
+      req.headers.authorization = authorization.replace(/^Form/i, 'Basic');
+      res.authenticate = 'Form';
     }
 
     // Do the authentication
