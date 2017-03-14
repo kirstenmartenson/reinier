@@ -13,10 +13,15 @@ const config = require('config');
 const http = require('http');
 const https = require('https');
 const express = require('express');
-const solos = require('rapid-solos');
+const solos = require('solos');
 const passport = require('passport');
 const LdapStrategy = require('passport-ldapauth');
 const auth = require('./auth.js');
+const morgan = require('morgan');
+
+// setup the logger
+const logConfig = config.get('servers.logs.options');
+const requestLogger = morgan(logConfig.type, logConfig.options);
 
 const ldapOptions = config.get('ldapauth');
 
@@ -32,6 +37,7 @@ const router = express.Router();
 const seneca = require('seneca')(config.get('seneca'));
 
 app.set('x-powered-by', false);
+app.use(requestLogger);
 app.use(passport.initialize());
 app.use(express.static('public'));
 app.use('/', router);
@@ -72,6 +78,7 @@ secured.listen(securePort, listening(secured));
 
 // Redirect all open traffic to secured
 const redirect = express();
+redirect.set('x-powered-by', false);
 redirect.all('*', (req, res) => {
   res.redirect(`https://${req.hostname}${securePortURL}${req.url}`);
 });
