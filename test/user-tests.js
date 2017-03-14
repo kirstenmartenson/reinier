@@ -137,48 +137,7 @@ describe('User', () => {
   });
 
   describe('GET /', () => {
-    it('without an authentication header should fail', (done) => {
-      chai.request(server)
-        .get('/')
-        .end((err, res) => {
-          res.should.have.status(401);
-          res.headers.should.have.property('www-authenticate');
-          res.headers['www-authenticate'].should.match(/^Basic/);
-          res.body.should.be.a('object');
-          res.body.should.have.property('message');
-          res.body.message.should.eql('Missing header');
-          done();
-        });
-    });
-    it('with a basic authentication header should fail', (done) => {
-      chai.request(server)
-        .get('/')
-        .set('authorization', generateBasicAuth('blogger'))
-        .end((err, res) => {
-          res.should.have.status(401);
-          res.headers.should.have.property('www-authenticate');
-          res.headers['www-authenticate'].should.match(/^Bearer/);
-          res.body.should.be.a('object');
-          res.body.should.have.property('message');
-          res.body.message.should.eql('Login to get a new bearer token');
-          done();
-        });
-    });
-    it('with a form authentication header should fail', (done) => {
-      chai.request(server)
-        .get('/')
-        .set('authorization', generateFormAuth('blogger'))
-        .end((err, res) => {
-          res.should.have.status(401);
-          res.headers.should.have.property('www-authenticate');
-          res.headers['www-authenticate'].should.match(/^Bearer/);
-          res.body.should.be.a('object');
-          res.body.should.have.property('message');
-          res.body.message.should.eql('Login to get a new bearer token');
-          done();
-        });
-    });
-    it('with correct bearer authentication header should succeed', (done) => {
+    it('without an authentication header should succeed', (done) => {
       chai.request(server)
         .get('/')
         .set('authorization', generateBearerAuth(token))
